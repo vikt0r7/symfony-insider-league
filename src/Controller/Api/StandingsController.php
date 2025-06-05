@@ -22,7 +22,6 @@ class StandingsController extends AbstractController
 
         $table = [];
 
-        // 1. Гарантируем уникальность: инициализируем только по ID
         foreach ($teams as $team) {
             $id = $team->getId();
             if (!isset($table[$id])) {
@@ -42,7 +41,6 @@ class StandingsController extends AbstractController
             }
         }
 
-        // 2. Обрабатываем сыгранные матчи
         foreach ($matches as $match) {
             if (null === $match->getHomeScore() || null === $match->getAwayScore()) {
                 continue;
@@ -94,9 +92,8 @@ class StandingsController extends AbstractController
             $row['goalDifference'] = $row['goalsFor'] - $row['goalsAgainst'];
             $row['form'] = array_slice(array_reverse($row['form']), 0, 5);
         }
-        unset($row); // good practice
+        unset($row);
 
-        // 4. Сортировка
         uasort(
             $table,
             fn ($a, $b) => $b['points'] <=> $a['points']
@@ -104,7 +101,6 @@ class StandingsController extends AbstractController
                 ?: strcmp($a['club'], $b['club'])
         );
 
-        // 5. Финальное добавление позиции
         $response = [];
         $position = 1;
         foreach ($table as $row) {

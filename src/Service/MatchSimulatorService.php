@@ -26,11 +26,9 @@ class MatchSimulatorService
 
         $currentWeek = $leagueState->getCurrentWeek();
 
-        // 1. Получаем матчи текущей недели без результата
         $matches = $this->matchRepository->findUnplayedByWeek($currentWeek);
 
         foreach ($matches as $match) {
-            // 2. Случайно генерируем счёт
             $homeScore = random_int(0, 5);
             $awayScore = random_int(0, 5);
 
@@ -40,7 +38,6 @@ class MatchSimulatorService
 
         $this->em->flush();
 
-        // 3. Увеличиваем текущую неделю
         $leagueState->incrementWeek();
         $this->em->flush();
     }

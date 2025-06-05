@@ -21,14 +21,11 @@ class MatchSchedulerService
 
     public function scheduleAllMatches(): void
     {
-        // 1. Удаляем все матчи
         $this->matchRepository->removeAll();
 
-        // 2. Получаем все команды
         /** @var Team[] $teams */
         $teams = $this->em->getRepository(Team::class)->findAll();
 
-        // 3. Создаем уникальные пары (без дубликатов)
         $pairs = [];
 
         for ($i = 0, $iMax = count($teams); $i < $iMax; ++$i) {
@@ -36,10 +33,9 @@ class MatchSchedulerService
                 $teamA = $teams[$i];
                 $teamB = $teams[$j];
 
-                // Уникальный ключ пары (по id)
                 $pairKey = $teamA->getId() < $teamB->getId()
-                    ? $teamA->getId().'-'.$teamB->getId()
-                    : $teamB->getId().'-'.$teamA->getId();
+                    ? $teamA->getId() . '-' . $teamB->getId()
+                    : $teamB->getId() . '-' . $teamA->getId();
 
                 if (!isset($pairs[$pairKey])) {
                     $pairs[$pairKey] = [$teamA, $teamB];
@@ -47,7 +43,6 @@ class MatchSchedulerService
             }
         }
 
-        // 4. Назначаем по 1 матчу на неделю
         $week = 1;
         foreach ($pairs as [$teamA, $teamB]) {
             $match = new MatchGame($teamA, $teamB);
@@ -55,10 +50,8 @@ class MatchSchedulerService
             $this->em->persist($match);
         }
 
-        // 5. Сохраняем матчи
         $this->em->flush();
 
-        // 6. Сбрасываем текущую неделю в LeagueState
         $leagueState = $this->leagueStateRepository->find(1);
         if (!$leagueState) {
             $leagueState = new \App\Entity\LeagueState();
