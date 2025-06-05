@@ -22,6 +22,7 @@ The project follows Clean Architecture + DDD + CQRS:
 - Refactor controllers → service layer
 - Switch to modular structure (Domain / App / Infra)
 - Add club logos (black / white / default)
+- Add more tests (unit + functional)
 - Improve table styling (Premier League style)
 - Add AI-based predictions (Groq / HuggingFace)
 - Extract match simulation to MatchSimulator service
@@ -29,7 +30,5 @@ The project follows Clean Architecture + DDD + CQRS:
 - Enable ESLint, Prettier, strict TS mode
 - Add prediction editing & deleting
 - Filter & paginate API responses
-- Add basic auth (JWT or token)
-- Make mobile responsive
 - Add more tests (unit + functional)
 
