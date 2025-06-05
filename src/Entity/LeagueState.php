@@ -22,7 +22,7 @@ class LeagueState
 
     public function incrementWeek(): void
     {
-        $this->currentWeek++;
+        ++$this->currentWeek;
     }
 
     public function reset(): void

@@ -5,13 +5,12 @@ namespace App\Service;
 use App\Entity\MatchGame;
 use App\Repository\MatchGameRepository;
 use App\Repository\TeamRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class SimulationService
 {
     public function __construct(
-        private MatchGameRepository $matchRepository,
-        private TeamRepository $teamRepository
+        private readonly MatchGameRepository $matchRepository,
+        private readonly TeamRepository $teamRepository,
     ) {
     }
 

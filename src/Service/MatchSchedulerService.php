@@ -4,16 +4,16 @@ namespace App\Service;
 
 use App\Entity\MatchGame;
 use App\Entity\Team;
-use App\Repository\MatchGameRepository;
 use App\Repository\LeagueStateRepository;
+use App\Repository\MatchGameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MatchSchedulerService
 {
     public function __construct(
-        private EntityManagerInterface $em,
-        private MatchGameRepository $matchRepository,
-        private LeagueStateRepository $leagueStateRepository
+        private readonly EntityManagerInterface $em,
+        private readonly MatchGameRepository $matchRepository,
+        private readonly LeagueStateRepository $leagueStateRepository,
     ) {
     }
 
@@ -29,15 +29,15 @@ class MatchSchedulerService
         // 3. Создаем уникальные пары (без дубликатов)
         $pairs = [];
 
-        for ($i = 0, $iMax = count($teams); $i < $iMax; $i++) {
-            for ($j = $i + 1; $j < $iMax; $j++) {
+        for ($i = 0, $iMax = count($teams); $i < $iMax; ++$i) {
+            for ($j = $i + 1; $j < $iMax; ++$j) {
                 $teamA = $teams[$i];
                 $teamB = $teams[$j];
 
                 // Уникальный ключ пары (по id)
                 $pairKey = $teamA->getId() < $teamB->getId()
-                    ? $teamA->getId() . '-' . $teamB->getId()
-                    : $teamB->getId() . '-' . $teamA->getId();
+                    ? $teamA->getId().'-'.$teamB->getId()
+                    : $teamB->getId().'-'.$teamA->getId();
 
                 if (!isset($pairs[$pairKey])) {
                     $pairs[$pairKey] = [$teamA, $teamB];

@@ -20,22 +20,20 @@ class MatchController extends AbstractController
     {
         $matches = $repo->findAll();
 
-        $data = array_map(static function (MatchGame $match) {
-            return [
-                'id' => $match->getId(),
-                'scoreA' => $match->getHomeScore(),
-                'scoreB' => $match->getAwayScore(),
-                'teamA' => [
-                    'id' => $match->getHomeTeam()->getId(),
-                    'name' => $match->getHomeTeam()->getName(),
-                ],
-                'teamB' => [
-                    'id' => $match->getAwayTeam()->getId(),
-                    'name' => $match->getAwayTeam()->getName(),
-                ],
-                'week' => $match->getWeek(),
-            ];
-        }, $matches);
+        $data = array_map(static fn (MatchGame $match) => [
+            'id' => $match->getId(),
+            'scoreA' => $match->getHomeScore(),
+            'scoreB' => $match->getAwayScore(),
+            'teamA' => [
+                'id' => $match->getHomeTeam()->getId(),
+                'name' => $match->getHomeTeam()->getName(),
+            ],
+            'teamB' => [
+                'id' => $match->getAwayTeam()->getId(),
+                'name' => $match->getAwayTeam()->getName(),
+            ],
+            'week' => $match->getWeek(),
+        ], $matches);
 
         return $this->json($data);
     }
@@ -50,8 +48,8 @@ class MatchController extends AbstractController
             $team->resetStats();
         }
 
-        $match->setHomeScore((int)$data['scoreA']);
-        $match->setAwayScore((int)$data['scoreB']);
+        $match->setHomeScore((int) $data['scoreA']);
+        $match->setAwayScore((int) $data['scoreB']);
 
         $em->flush();
 

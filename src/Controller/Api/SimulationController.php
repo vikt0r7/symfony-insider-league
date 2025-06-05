@@ -8,8 +8,6 @@ use App\Application\Command\SimulateWeekCommand;
 use App\Application\Handler\ScheduleAllHandler;
 use App\Application\Handler\SimulateAllHandler;
 use App\Application\Handler\SimulateWeekHandler;
-use App\Service\MatchSchedulerService;
-use App\Service\LeagueStateService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,14 +19,15 @@ class SimulationController extends AbstractController
     public function playAll(SimulateAllHandler $handler): JsonResponse
     {
         $handler->handle(new SimulateAllCommand());
+
         return $this->json(['status' => 'All simulated via CQRS']);
     }
-
 
     #[Route('/schedule', name: 'simulate_schedule', methods: ['POST'])]
     public function schedule(ScheduleAllHandler $handler): JsonResponse
     {
         $handler->handle(new ScheduleAllCommand());
+
         return $this->json(['status' => 'Schedule created']);
     }
 
@@ -38,6 +37,7 @@ class SimulationController extends AbstractController
         $handler->handle(
             new SimulateWeekCommand(0)
         );
+
         return $this->json(['status' => 'Next week simulated']);
     }
 }

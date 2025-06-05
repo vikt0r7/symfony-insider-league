@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Team;
 use App\Entity\Player;
+use App\Entity\Team;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -22,7 +22,7 @@ class PremierLeagueFixtures extends Fixture
             $team = new Team();
             $team->setName($name);
 
-            for ($i = 1; $i <= 4; $i++) {
+            for ($i = 1; $i <= 4; ++$i) {
                 $player = new Player();
                 $player->setName("Player {$i} {$name}");
                 $player->setTeam($team);

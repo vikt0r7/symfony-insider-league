@@ -6,7 +6,7 @@ use App\Repository\TeamRepository;
 
 class PredictionService
 {
-    public function __construct(private TeamRepository $teamRepository)
+    public function __construct(private readonly TeamRepository $teamRepository)
     {
     }
 
@@ -18,22 +18,23 @@ class PredictionService
         $totalScore = 0;
 
         foreach ($teams as $team) {
-            $formBonus = count(array_filter($team->getRecentFormArray(), static fn($f) => $f === 'W')) * 10;
+            $formBonus = count(array_filter($team->getRecentFormArray(), static fn ($f) => 'W' === $f)) * 10;
             $score = $team->getPoints() * 100 + $team->getGoalDifference() + $formBonus;
             $scores[$team->getName()] = max(1, $score);
             $totalScore += $scores[$team->getName()];
         }
 
-        if ($totalScore === 0) {
+        if (0 === $totalScore) {
             $teamCount = count($teams);
-            if ($teamCount === 0) {
+            if (0 === $teamCount) {
                 return [];
             }
 
             $equalChance = round(100 / $teamCount, 2);
-            return array_map(fn($team) => [
+
+            return array_map(fn ($team) => [
                 'team' => $team->getName(),
-                'chance' => $equalChance
+                'chance' => $equalChance,
             ], $teams);
         }
 
@@ -41,11 +42,11 @@ class PredictionService
         foreach ($scores as $teamName => $score) {
             $probabilities[] = [
                 'team' => $teamName,
-                'chance' => round($score / $totalScore * 100, 2)
+                'chance' => round($score / $totalScore * 100, 2),
             ];
         }
 
-        usort($probabilities, static fn($a, $b) => $b['chance'] <=> $a['chance']);
+        usort($probabilities, static fn ($a, $b) => $b['chance'] <=> $a['chance']);
 
         return $probabilities;
     }

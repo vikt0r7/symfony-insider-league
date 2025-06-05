@@ -37,12 +37,12 @@ class MatchGameRepository extends ServiceEntityRepository
 
     public function hasUnplayedMatches(): bool
     {
-        return $this->createQueryBuilder('m')
+        return null !== $this->createQueryBuilder('m')
                 ->select('1')
                 ->where('m.homeScore IS NULL AND m.awayScore IS NULL')
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult() !== null;
+                ->getOneOrNullResult();
     }
 
     public function removeAll(): void

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity;
 
 use App\Repository\MatchGameRepository;
@@ -14,14 +13,6 @@ class MatchGame
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'homeMatches')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Team $homeTeam = null;
-
-    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'awayMatches')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Team $awayTeam = null;
-
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $homeScore = null;
 
@@ -31,10 +22,12 @@ class MatchGame
     #[ORM\Column(type: 'integer')]
     private int $week;
 
-    public function __construct(Team $homeTeam, Team $awayTeam)
+    public function __construct(#[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'homeMatches')]
+        #[ORM\JoinColumn(nullable: false)]
+        private ?Team $homeTeam, #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'awayMatches')]
+        #[ORM\JoinColumn(nullable: false)]
+        private ?Team $awayTeam)
     {
-        $this->homeTeam = $homeTeam;
-        $this->awayTeam = $awayTeam;
     }
 
     public function getId(): ?int
@@ -50,6 +43,7 @@ class MatchGame
     public function setHomeTeam(Team $team): self
     {
         $this->homeTeam = $team;
+
         return $this;
     }
 
@@ -61,6 +55,7 @@ class MatchGame
     public function setAwayTeam(Team $team): self
     {
         $this->awayTeam = $team;
+
         return $this;
     }
 
@@ -72,6 +67,7 @@ class MatchGame
     public function setHomeScore(?int $score): self
     {
         $this->homeScore = $score;
+
         return $this;
     }
 
@@ -83,6 +79,7 @@ class MatchGame
     public function setAwayScore(?int $score): self
     {
         $this->awayScore = $score;
+
         return $this;
     }
 
@@ -94,20 +91,20 @@ class MatchGame
     public function setWeek(int $week): self
     {
         $this->week = $week;
+
         return $this;
     }
 
     public function isPlayed(): bool
     {
-        return $this->homeScore !== null && $this->awayScore !== null;
+        return null !== $this->homeScore && null !== $this->awayScore;
     }
 
     public function simulate(): void
     {
-        if ($this->homeScore === null && $this->awayScore === null) {
+        if (null === $this->homeScore && null === $this->awayScore) {
             $this->homeScore = random_int(0, 5);
             $this->awayScore = random_int(0, 5);
         }
     }
 }
-

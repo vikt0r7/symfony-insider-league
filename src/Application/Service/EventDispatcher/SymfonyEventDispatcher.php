@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class SymfonyEventDispatcher implements DomainEventDispatcherInterface
 {
     public function __construct(
-        private readonly MessageBusInterface $bus
+        private readonly MessageBusInterface $bus,
     ) {
     }
 

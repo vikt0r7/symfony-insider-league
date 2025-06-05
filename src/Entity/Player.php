@@ -39,6 +39,7 @@ class Player
     public function setName(?string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -50,6 +51,7 @@ class Player
     public function setScore(int $score): static
     {
         $this->score = $score;
+
         return $this;
     }
 
@@ -61,6 +63,7 @@ class Player
     public function setTeam(?Team $team): static
     {
         $this->team = $team;
+
         return $this;
     }
 
@@ -72,6 +75,7 @@ class Player
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 }

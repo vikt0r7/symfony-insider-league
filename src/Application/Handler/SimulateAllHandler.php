@@ -8,7 +8,7 @@ use App\Service\MatchSimulatorService;
 class SimulateAllHandler
 {
     public function __construct(
-        private MatchSimulatorService $simulator
+        private readonly MatchSimulatorService $simulator,
     ) {
     }
 

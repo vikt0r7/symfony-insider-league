@@ -7,7 +7,7 @@ use App\Service\MatchSchedulerService;
 
 class ScheduleAllHandler
 {
-    public function __construct(private MatchSchedulerService $scheduler)
+    public function __construct(private readonly MatchSchedulerService $scheduler)
     {
     }
 

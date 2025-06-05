@@ -17,7 +17,7 @@ class SimulateAllWeeksCommand extends Command
 {
     public function __construct(
         private readonly SimulationService $simulator,
-        private readonly MatchGameRepository $matchRepository
+        private readonly MatchGameRepository $matchRepository,
     ) {
         parent::__construct();
     }
@@ -46,7 +46,7 @@ class SimulateAllWeeksCommand extends Command
                 );
             }
 
-            $week++;
+            ++$week;
         }
 
         $output->writeln('<comment>Simulation complete.</comment>');

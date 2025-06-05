@@ -7,8 +7,8 @@ use App\Domain\Common\DomainEvent;
 class PredictionSubmittedEvent implements DomainEvent
 {
     public function __construct(
-        private int $userId,
-        private int $matchId
+        private readonly int $userId,
+        private readonly int $matchId,
     ) {
     }
 

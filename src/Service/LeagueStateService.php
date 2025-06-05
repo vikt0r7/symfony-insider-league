@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class LeagueStateService
 {
     public function __construct(
-        private EntityManagerInterface $em,
-        private LeagueStateRepository $leagueStateRepository
+        private readonly EntityManagerInterface $em,
+        private readonly LeagueStateRepository $leagueStateRepository,
     ) {
     }
 

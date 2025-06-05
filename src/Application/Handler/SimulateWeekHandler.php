@@ -7,7 +7,7 @@ use App\Service\MatchSimulatorService;
 
 class SimulateWeekHandler
 {
-    public function __construct(private MatchSimulatorService $simulator)
+    public function __construct(private readonly MatchSimulatorService $simulator)
     {
     }
 

@@ -14,13 +14,14 @@ class PredictionController extends AbstractController
     #[Route('/predictions', methods: ['GET'])]
     public function getProbabilities(
         LeagueStateService $stateService,
-        PredictionService $predictionService
+        PredictionService $predictionService,
     ): JsonResponse {
         if ($stateService->getCurrentWeek() <= 4) {
             return $this->json(['message' => 'Predictions available after week 4'], 400);
         }
 
         $data = $predictionService->calculateProbabilities();
+
         return $this->json($data);
     }
 }

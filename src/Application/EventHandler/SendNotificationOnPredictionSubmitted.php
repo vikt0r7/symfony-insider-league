@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class SendNotificationOnPredictionSubmitted implements EventSubscriberInterface
 {
     public function __construct(
-        private NotificationSender $notificationSender
+        private readonly NotificationSender $notificationSender,
     ) {
     }
 

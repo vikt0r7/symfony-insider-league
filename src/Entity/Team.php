@@ -57,7 +57,6 @@ class Team
         $this->awayMatches = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +70,7 @@ class Team
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -88,7 +88,7 @@ class Team
 
     public function addPlayed(): void
     {
-        $this->played++;
+        ++$this->played;
     }
 
     public function getWon(): int
@@ -98,7 +98,7 @@ class Team
 
     public function addWon(): void
     {
-        $this->won++;
+        ++$this->won;
         $this->addPoints(3);
     }
 
@@ -109,7 +109,7 @@ class Team
 
     public function addDrawn(): void
     {
-        $this->drawn++;
+        ++$this->drawn;
         $this->addPoints(1);
     }
 
@@ -120,7 +120,7 @@ class Team
 
     public function addLost(): void
     {
-        $this->lost++;
+        ++$this->lost;
     }
 
     public function getGoalsFor(): int
@@ -189,12 +189,13 @@ class Team
     {
         $matches = array_merge($this->getHomeMatches()->toArray(), $this->getAwayMatches()->toArray());
 
-        usort($matches, fn($a, $b) => $b->getWeek() <=> $a->getWeek());
+        usort($matches, fn ($a, $b) => $b->getWeek() <=> $a->getWeek());
 
         return array_slice(array_map(function (MatchGame $match) {
             $isHome = $match->getHomeTeam() === $this;
             $goalsFor = $isHome ? $match->getHomeScore() : $match->getAwayScore();
             $goalsAgainst = $isHome ? $match->getAwayScore() : $match->getHomeScore();
+
             return match (true) {
                 $goalsFor > $goalsAgainst => 'W',
                 $goalsFor === $goalsAgainst => 'D',
@@ -202,7 +203,6 @@ class Team
             };
         }, $matches), 0, 5);
     }
-
 
     /**
      * @return Collection<int, MatchGame>
@@ -222,21 +222,21 @@ class Team
 
     public function applyMatchResult(int $goalsFor, int $goalsAgainst): void
     {
-        $this->played++;
+        ++$this->played;
         $this->goalsFor += $goalsFor;
         $this->goalsAgainst += $goalsAgainst;
         $this->goalDifference = $this->goalsFor - $this->goalsAgainst;
 
         if ($goalsFor > $goalsAgainst) {
-            $this->won++;
+            ++$this->won;
             $this->points += 3;
             $this->form[] = 'W';
         } elseif ($goalsFor < $goalsAgainst) {
-            $this->lost++;
+            ++$this->lost;
             $this->form[] = 'L';
         } else {
-            $this->drawn++;
-            $this->points += 1;
+            ++$this->drawn;
+            ++$this->points;
             $this->form[] = 'D';
         }
 

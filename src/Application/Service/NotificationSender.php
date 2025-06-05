@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 class NotificationSender
 {
     public function __construct(
-        private LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -17,6 +17,6 @@ class NotificationSender
     {
         $this->logger->info("Sending notification to {$userId}: {$message}");
 
-        echo "Notification sent #{$userId}: {$message}" . PHP_EOL;
+        echo "Notification sent #{$userId}: {$message}".PHP_EOL;
     }
 }

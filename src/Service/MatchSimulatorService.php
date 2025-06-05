@@ -2,16 +2,16 @@
 
 namespace App\Service;
 
-use App\Repository\MatchGameRepository;
 use App\Repository\LeagueStateRepository;
+use App\Repository\MatchGameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MatchSimulatorService
 {
     public function __construct(
-        private MatchGameRepository $matchRepository,
-        private LeagueStateRepository $leagueStateRepository,
-        private EntityManagerInterface $em
+        private readonly MatchGameRepository $matchRepository,
+        private readonly LeagueStateRepository $leagueStateRepository,
+        private readonly EntityManagerInterface $em,
     ) {
     }
 
@@ -34,7 +34,6 @@ class MatchSimulatorService
 
             $match->setHomeScore($homeScore);
             $match->setAwayScore($awayScore);
-
         }
 
         $this->em->flush();
