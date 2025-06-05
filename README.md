@@ -13,3 +13,7 @@ A football league simulator on Symfony + Vue.js. The project implements the mech
 ## ⚙️ Architecture
 
 The project follows Clean Architecture + DDD + CQRS:
+
+## Example image
+<img width="1245" alt="image" src="https://github.com/user-attachments/assets/9e73d87b-bcad-4bd2-9877-a1c415cad45e" />
+
