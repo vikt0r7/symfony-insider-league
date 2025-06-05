@@ -1,51 +1,35 @@
-// eslint.config.js
+import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
-import prettier from 'eslint-plugin-prettier'
+import tseslint from '@typescript-eslint/eslint-plugin'
+import tsparser from '@typescript-eslint/parser'
 
-export default async function () {
-  return [
-    {
-      files: ['**/*.vue'],
-      languageOptions: {
-        parser: 'vue-eslint-parser',
-        parserOptions: {
-          parser: tsParser,
-          ecmaVersion: 'latest',
-          sourceType: 'module',
-          extraFileExtensions: ['.vue'],
-        },
+export default [
+  js.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.vue'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: './tsconfig.json',
       },
-      plugins: {
-        vue,
-        prettier,
-      },
-      rules: {
-        ...(await vue.configs['vue3-essential']).rules,
-        'vue/multi-word-component-names': 'off',
-        'vue/html-self-closing': ['error'],
-        'prettier/prettier': 'error',
+      globals: {
+        fetch: 'readonly',
+        console: 'readonly',
       },
     },
-    {
-      files: ['**/*.ts'],
-      languageOptions: {
-        parser: tsParser,
-        parserOptions: {
-          ecmaVersion: 'latest',
-          sourceType: 'module',
-        },
-      },
-      plugins: {
-        '@typescript-eslint': tsPlugin,
-        prettier,
-      },
-      rules: {
-        '@typescript-eslint/no-explicit-any': 'warn',
-        '@typescript-eslint/explicit-function-return-type': 'off',
-        'prettier/prettier': 'error',
-      },
+    plugins: {
+      '@typescript-eslint': tseslint,
+      vue,
     },
-  ]
-}
+    rules: {
+      // TS
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      // Vue
+      'vue/no-unused-components': 'warn',
+      'vue/multi-word-component-names': 'off',
+    },
+  },
+]

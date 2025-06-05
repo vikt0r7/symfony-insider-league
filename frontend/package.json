@@ -7,9 +7,8 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "build:prod": "vite build",
-        "lint": "eslint . --config eslint.config.js"
-        "lint:fix": "eslint . --fix"
+        "lint": "eslint . --config eslint.config.js",
+        "lint:fix": "eslint . --config eslint.config.js --fix"
     },
     "dependencies": {
         "vue": "^3.5.13"
