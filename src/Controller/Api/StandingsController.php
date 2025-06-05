@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use App\Entity\MatchGame;
@@ -95,7 +97,9 @@ class StandingsController extends AbstractController
         unset($row); // good practice
 
         // 4. Сортировка
-        uasort($table, fn ($a, $b) => $b['points'] <=> $a['points']
+        uasort(
+            $table,
+            fn ($a, $b) => $b['points'] <=> $a['points']
             ?: $b['goalDifference'] <=> $a['goalDifference']
                 ?: strcmp($a['club'], $b['club'])
         );

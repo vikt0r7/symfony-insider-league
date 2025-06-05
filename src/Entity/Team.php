@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TeamRepository;
@@ -10,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 class Team
 {
+    public $goalDifference;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -47,8 +50,6 @@ class Team
 
     #[ORM\OneToMany(targetEntity: MatchGame::class, mappedBy: 'awayTeam')]
     private Collection $awayMatches;
-
-    public $goalDifference;
 
     public function __construct()
     {
@@ -148,11 +149,6 @@ class Team
         return $this->points;
     }
 
-    private function addPoints(int $pts): void
-    {
-        $this->points += $pts;
-    }
-
     public function getGoalDifference(): int
     {
         return $this->goalsFor - $this->goalsAgainst;
@@ -243,5 +239,10 @@ class Team
         if (count($this->form) > 5) {
             array_shift($this->form);
         }
+    }
+
+    private function addPoints(int $pts): void
+    {
+        $this->points += $pts;
     }
 }
