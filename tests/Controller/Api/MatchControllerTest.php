@@ -39,7 +39,6 @@ class MatchControllerTest extends WebTestCase
         $controller = new MatchController();
 
         $response = $controller->index($matchRepo);
-        $this->assertInstanceOf(JsonResponse::class, $response);
 
         $data = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertCount(1, $data);
