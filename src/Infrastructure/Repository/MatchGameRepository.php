@@ -28,7 +28,7 @@ class MatchGameRepository extends ServiceEntityRepository
 
         $nextWeek = $qb->getQuery()->getSingleScalarResult();
 
-        return $nextWeek === null ? null : (int)$nextWeek;
+        return null === $nextWeek ? null : (int) $nextWeek;
     }
 
     public function findUnplayedByWeek(int $week): array

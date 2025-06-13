@@ -56,7 +56,7 @@ class MatchFixtures extends Fixture implements DependentFixtureInterface, Fixtur
             $match->setAwayScore(null);
             $manager->persist($match);
 
-            $week++;
+            ++$week;
             if ($week > $maxWeeks) {
                 $week = 1;
             }

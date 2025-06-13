@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
-use App\Domain\Model\LeagueState;
 use App\Domain\Model\MatchGame;
 use App\Infrastructure\Repository\LeagueStateRepository;
 use App\Infrastructure\Repository\MatchGameRepository;
@@ -38,12 +37,13 @@ class MatchSimulationService
         $this->logger->info("Current week: $week");
 
         $matches = $this->matchRepository->findUnplayedByWeek($week);
-        $this->logger->info("findUnplayedByWeek($week) returned " . count($matches) . " matches");
+        $this->logger->info("findUnplayedByWeek($week) returned " . count($matches) . ' matches');
 
-        while (count($matches) === 0) {
+        while (0 === count($matches)) {
             $nextWeek = $this->matchRepository->findNextWeekWithUnplayedMatches($week);
-            if ($nextWeek === null) {
-                $this->logger->info("No more weeks with unplayed matches. Season finished.");
+            if (null === $nextWeek) {
+                $this->logger->info('No more weeks with unplayed matches. Season finished.');
+
                 return;
             }
             $week = $nextWeek;
@@ -59,7 +59,7 @@ class MatchSimulationService
             $this->applyResult($match);
             $this->logger->info(
                 sprintf(
-                    "Match id %d: homeScore=%s, awayScore=%s",
+                    'Match id %d: homeScore=%s, awayScore=%s',
                     $match->getId(),
                     $match->getHomeScore(),
                     $match->getAwayScore()
@@ -68,16 +68,15 @@ class MatchSimulationService
         }
 
         $nextWeek = $this->matchRepository->findNextWeekWithUnplayedMatches($week);
-        if ($nextWeek !== null) {
+        if (null !== $nextWeek) {
             $leagueState->setCurrentWeek($nextWeek);
             $this->logger->info("Week set to next unplayed week: $nextWeek");
         } else {
-            $this->logger->info("No more unplayed weeks after current. Season finished.");
+            $this->logger->info('No more unplayed weeks after current. Season finished.');
         }
 
         $this->entityManager->flush();
     }
-
 
     public function simulateAllWeeks(): void
     {

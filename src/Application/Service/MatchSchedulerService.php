@@ -42,7 +42,7 @@ class MatchSchedulerService
             $match->setWeek($week);
             $this->entityManager->persist($match);
 
-            $week++;
+            ++$week;
             if ($week > $maxWeeks) {
                 $week = 1;
             }

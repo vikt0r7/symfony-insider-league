@@ -19,7 +19,7 @@ class SimulateNextWeekCommand extends Command
 {
     public function __construct(
         private MatchSimulationService $simulator,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
     }

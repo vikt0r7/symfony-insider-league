@@ -7,8 +7,6 @@ namespace App\UI\Http\Controller\Api;
 use App\Application\Command\ScheduleAllCommand;
 use App\Application\Command\SimulateAllCommand;
 use App\Application\Command\SimulateWeekCommand;
-use App\Application\Query\GetCurrentWeekQuery;
-use App\Application\QueryHandler\GetCurrentWeekHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
